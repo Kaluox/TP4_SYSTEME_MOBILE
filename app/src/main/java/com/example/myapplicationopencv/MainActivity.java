@@ -36,6 +36,8 @@ public class MainActivity extends CameraActivity implements CvCameraViewListener
 
     private CameraBridgeViewBase   mOpenCvCameraView;
 
+    public native void ProcessFast(intwidth, intheight, byteinput[], byteoutput[]);
+    System.loadLibrary("native-lib");
     private BaseLoaderCallback  mLoaderCallback = new BaseLoaderCallback(this) {
         @Override
         public void onManagerConnected(int status) {
