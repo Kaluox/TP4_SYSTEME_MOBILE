@@ -151,16 +151,22 @@ public class MainActivity extends CameraActivity implements CvCameraViewListener
     }
 
     private void gradient() {
+        // allocation de l'array tmp
         tmparray = new byte[w*h];
-        System.out.println("/n w = " + w +  " h = " + h);
-        for (int i = 1; i < w; i++) {
-            for (int j = 1; j < h-i; j++) {
+        // avec i on parcourt la largeur de l'image
+        for (int i = 1; i < w-1; i++) {
+            //avec j on parcourt la hauteur de l'image
+            for (int j = 1; j < h-1; j++) {
+                // calcul du gradient horizontal
                 int gradH = outarray[index(i - 1, j)] - outarray[index(i + 1, j)];
+                // calcul du gradient vertical
                 int gradV = outarray[index(i, j - 1)] - outarray[index(i, j + 1)];
+                //on affecte la valeur du pixel au tableau temporaire
                 tmparray[index(i,j)] = (byte) (gradH + gradV);
 
             }
         }
+        //on remplace outarray par notre tableau temporaire
         outarray = tmparray.clone();
     }
 
