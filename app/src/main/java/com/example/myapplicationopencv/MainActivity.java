@@ -130,8 +130,8 @@ public class MainActivity extends CameraActivity implements CvCameraViewListener
     public Mat onCameraFrame(CvCameraViewFrame inputFrame) {
         Mat gray =inputFrame.gray();
         MatToArray(gray);
-
-        //Sutf to do here by the students....
+        gradient();
+        //Sutf to do here by the students...
 
         Mat out=ArrayToMat(gray,outarray);
         return out;
@@ -150,5 +150,16 @@ public class MainActivity extends CameraActivity implements CvCameraViewListener
 
     }
 
+    private void gradient() {
+        for (int i = 1; i < h; i++) {
+            for (int j = 1; j < w; j++) {
+                int gradH = outarray[index(i - 1, j)] - outarray[index];
 
+            }
+        }
+    }
+
+    private int index(int x, int y){
+        return y*w+x;
+    }
 }
