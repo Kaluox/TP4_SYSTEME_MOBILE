@@ -130,7 +130,8 @@ public class MainActivity extends CameraActivity implements CvCameraViewListener
     public Mat onCameraFrame(CvCameraViewFrame inputFrame) {
         Mat gray =inputFrame.gray();
         MatToArray(gray);
-        gradient();
+//        gradient();
+        sobel();
         //Sutf to do here by the students...
 
         Mat out=ArrayToMat(gray,outarray);
@@ -164,6 +165,32 @@ public class MainActivity extends CameraActivity implements CvCameraViewListener
                 //on affecte la valeur du pixel au tableau temporaire
                 tmparray[index(i,j)] = (byte) (gradH + gradV);
 
+            }
+        }
+        //on remplace outarray par notre tableau temporaire
+        outarray = tmparray.clone();
+    }
+
+    private void sobel(){
+        // allocation de l'array tmp
+        tmparray = new byte[w*h];
+        // Création des variables Gx et Gy
+        int gx;
+        int gy;
+        // avec i on parcourt la largeur de l'image
+        for (int i = 2; i < w-1; i++) {
+            //avec j on parcourt la hauteur de l'image
+            for (int j = 1; j < h-1; j++) {
+                // Calcul de Gx
+                gx = (-1*outarray[index(i - 1, j + 1)]) + outarray[index(i + 1, j + 1)]
+                        + (-2*outarray[index(i - 1, j)]) + (2*outarray[index(i + 1, j)])
+                        + (-1*outarray[index(i -1, j - 1)]) + outarray[index(i + 1, j - 1)];
+                // Calcul de Gy
+                gy = (-1*outarray[index(i - 1, j + 1)]) + (-2*outarray[index(i, j + 1)])
+                        + (-1*outarray[index(i + 1, j + 1)]) + outarray[index(i - 1, j - 1)]
+                        + (2*outarray[index(i, j - 1)]) + outarray[index(i + 1, j - 1)];
+                //on affecte la valeur du pixel au tableau temporaire
+                tmparray[index(i,j)] = (byte) Math.sqrt(Math.pow(gx,gx)+Math.pow(gy,gy));
             }
         }
         //on remplace outarray par notre tableau temporaire
