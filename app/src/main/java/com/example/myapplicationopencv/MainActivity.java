@@ -151,12 +151,16 @@ public class MainActivity extends CameraActivity implements CvCameraViewListener
     }
 
     private void gradient() {
+        tmparray = new byte[w*h];
         for (int i = 1; i < h; i++) {
             for (int j = 1; j < w; j++) {
-                int gradH = outarray[index(i - 1, j)] - outarray[index];
+                int gradH = outarray[index(i - 1, j)] - outarray[index(i + 1, j)];
+                int gradV = outarray[index(i, j - 1)] - outarray[index(i, j + 1)];
+                tmparray[index(i,j)] = (byte) (gradH + gradV);
 
             }
         }
+        outarray = tmparray.clone();
     }
 
     private int index(int x, int y){
